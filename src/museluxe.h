@@ -1,4 +1,4 @@
-// museluxe.h - Header file for ESP Muse Luxe NeoPixel and Battery Management System (BMS) using IP5306
+// museluxe.h - Header file for ESP Muse Luxe NeoPixel, Battery Management System (BMS) using IP5306, and ES8388 Audio Codec
 // (c) 2024 RASPiAudio
 
 #ifndef MUSELUXE_H
@@ -7,16 +7,34 @@
 #include <Arduino.h>
 #include <Adafruit_NeoPixel.h>
 #include <Wire.h>
+#include <driver/i2s.h>
+#include <driver/ledc.h> // Added LEDC header for MCLK generation
 
 // Pin Definitions
 #define NEOPIXEL_PIN 22        // Pin for the RGB LED on Muse Luxe
 #define NUMPIXELS 1            // Muse Luxe has 1 RGB LED
 #define I2C_SDA 18             // I2C SDA Pin
 #define I2C_SCL 23             // I2C SCL Pin
+// Buttons definition
+#define BUTTON_PAUSE GPIO_NUM_12  // Pause/Play button
+#define BUTTON_VOL_MINUS GPIO_NUM_32 // Volume - button
+#define BUTTON_VOL_PLUS GPIO_NUM_19  // Volume + button
+
+
+
+// Audio Codec ES8388 I2C Address
+#define ES8388_ADDR 0x10
+
+// I2S Pins
+#define I2S_BCLK 5    // Bit Clock
+#define I2S_LRC 25    // Left/Right Clock (Word Select)
+#define I2S_DOUT 26   // Data Out
+#define I2S_DIN -1    // Data In (not used in this example)
 
 // Battery Level Thresholds
 #define BATTERY_FULL 75
 #define BATTERY_LOW  25
+#define BATTERY_PIN 34 //for legacy ADC pin (not the I2C bms mode)
 
 // IP5306 I2C Address and Registers
 #define IP5306_I2C_ADDRESS 0x75
@@ -84,6 +102,15 @@ public:
     uint8_t getVinCurrent();       // Returns VIN current in mA
     uint8_t getVoltagePressure();  // Returns voltage pressure in mV
 
+    // Audio methods
+    void initAudio();
+    void playSineWave(uint16_t frequency, uint16_t duration_ms);
+
+    // Amplifier control
+    void setAmplifier(bool enable); // New method to enable/disable the amplifier
+    void setVolume(uint8_t volume);   // Set volume level (0-100%)
+    uint8_t getVolume();              // Get current volume level
+
 private:
     Adafruit_NeoPixel pixels;
     uint8_t getBatteryLevel();
@@ -93,6 +120,17 @@ private:
     int ip5306_set_reg(uint8_t reg, uint8_t value);
     uint8_t ip5306_get_bits(uint8_t reg, uint8_t index, uint8_t bits);
     void ip5306_set_bits(uint8_t reg, uint8_t index, uint8_t bits, uint8_t value);
+
+    // ES8388 functions
+    void ES8388_Write_Reg(uint8_t reg, uint8_t val);
+    uint8_t ES8388_Read_Reg(uint8_t reg);
+    void ES8388_Init();
+    void I2S_Init();
+
+    // Amplifier pin
+    const gpio_num_t PA_PIN = GPIO_NUM_21; // Define as a constant member
+    uint8_t currentVolume = 50;       // Initialize volume at 50%
+
 };
 
 #endif // MUSELUXE_H
