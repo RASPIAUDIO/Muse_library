@@ -24,7 +24,7 @@
 
 // Audio Codec ES8388 I2C Address
 #define ES8388_ADDR 0x10
-
+#define maxVol 50
 // I2S Pins
 #define I2S_BCLK 5    // Bit Clock
 #define I2S_LRC 25    // Left/Right Clock (Word Select)
@@ -105,7 +105,7 @@ public:
     // Audio methods
     void initAudio();
     void playSineWave(uint16_t frequency, uint16_t duration_ms);
-
+    void playWav(const char* filename);
     // Amplifier control
     void setAmplifier(bool enable); // New method to enable/disable the amplifier
     void setVolume(uint8_t volume);   // Set volume level (0-100%)
@@ -126,6 +126,10 @@ private:
     uint8_t ES8388_Read_Reg(uint8_t reg);
     void ES8388_Init();
     void I2S_Init();
+
+
+    //Audio
+    void ES8388vol_Set(uint8_t volx);
 
     // Amplifier pin
     const gpio_num_t PA_PIN = GPIO_NUM_21; // Define as a constant member

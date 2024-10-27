@@ -7,6 +7,7 @@
 #include <esp_system.h>
 #include <math.h>
 #include <driver/ledc.h> // Added LEDC header for MCLK generation
+#include <SPIFFS.h>      // Added SPIFFS header
 
 MuseLuxe::MuseLuxe() : pixels(NUMPIXELS, NEOPIXEL_PIN, NEO_GRB + NEO_KHZ800) {}
 
@@ -26,6 +27,13 @@ void MuseLuxe::begin() {
     // Initialize Serial for debugging
     Serial.begin(115200);
     Serial.println("Muse Luxe initialized");
+
+    // Initialize SPIFFS
+    if (!SPIFFS.begin(true)) {
+        Serial.println("Erreur SPIFFS lors de l'initialisation");
+    } else {
+        Serial.println("SPIFFS initialisé avec succès");
+    }
 
     // Initialize Audio
     initAudio();
@@ -96,7 +104,7 @@ void MuseLuxe::ip5306_set_bits(uint8_t reg, uint8_t index, uint8_t bits, uint8_t
     uint8_t mask = (1 << bits) - 1;
     int v = ip5306_get_reg(reg);
     if (v < 0) {
-        Serial.printf("ip5306_get_reg fail: 0x%02x\n", reg);
+        Serial.printf("ip5306_set_reg fail: 0x%02x\n", reg);
         return;
     }
     v &= ~(mask << index);
@@ -118,7 +126,7 @@ uint8_t MuseLuxe::getVinCurrent() {
 
 uint8_t MuseLuxe::getVoltagePressure() {
     return IP5306_GetVoltagePressure() * 14; // Voltage Pressure = bits * 14mV
-}
+} 
 
 // Audio initialization
 void MuseLuxe::initAudio() {
@@ -136,46 +144,46 @@ void MuseLuxe::setAmplifier(bool enable) {
 }
 
 void MuseLuxe::ES8388_Init() {
-  // reset
-  ES8388_Write_Reg(0, 0x80);
-  ES8388_Write_Reg(0, 0x00);
-  // mute
-  ES8388_Write_Reg(25, 0x04);
-  ES8388_Write_Reg(1, 0x50);
-  //powerup
-  ES8388_Write_Reg(2, 0x00);
-  // slave mode
-  ES8388_Write_Reg(8, 0x00);
-  // DAC powerdown
-  ES8388_Write_Reg(4, 0xC0);
-  // vmidsel/500k ADC/DAC idem
-  ES8388_Write_Reg(0, 0x12);
+    // reset
+    ES8388_Write_Reg(0, 0x80);
+    ES8388_Write_Reg(0, 0x00);
+    // mute
+    ES8388_Write_Reg(25, 0x04);
+    ES8388_Write_Reg(1, 0x50);
+    // powerup
+    ES8388_Write_Reg(2, 0x00);
+    // slave mode
+    ES8388_Write_Reg(8, 0x00);
+    // DAC powerdown
+    ES8388_Write_Reg(4, 0xC0);
+    // vmidsel/500k ADC/DAC idem
+    ES8388_Write_Reg(0, 0x12);
 
-  ES8388_Write_Reg(1, 0x00);
-  // i2s 16 bits
-  ES8388_Write_Reg(23, 0x18);
-  // sample freq 256
-  ES8388_Write_Reg(24, 0x02);
-  // LIN2/RIN2 for mixer
-  ES8388_Write_Reg(38, 0x09);
-  // left DAC to left mixer
-  ES8388_Write_Reg(39, 0x90);
-  // right DAC to right mixer
-  ES8388_Write_Reg(42, 0x90);
-  // DACLRC ADCLRC idem
-  ES8388_Write_Reg(43, 0x80);
-  ES8388_Write_Reg(45, 0x00);
-  // DAC volume max
-  ES8388_Write_Reg(27, 0x00);
-  ES8388_Write_Reg(26, 0x00);
+    ES8388_Write_Reg(1, 0x00);
+    // i2s 16 bits
+    ES8388_Write_Reg(23, 0x18);
+    // sample freq 256
+    ES8388_Write_Reg(24, 0x02);
+    // LIN2/RIN2 for mixer
+    ES8388_Write_Reg(38, 0x09);
+    // left DAC to left mixer
+    ES8388_Write_Reg(39, 0x90);
+    // right DAC to right mixer
+    ES8388_Write_Reg(42, 0x90);
+    // DACLRC ADCLRC idem
+    ES8388_Write_Reg(43, 0x80);
+    ES8388_Write_Reg(45, 0x00);
+    // DAC volume max
+    ES8388_Write_Reg(27, 0x00);
+    ES8388_Write_Reg(26, 0x00);
 
-  ES8388_Write_Reg(2 , 0xF0);
-  ES8388_Write_Reg(2 , 0x00);
-  ES8388_Write_Reg(29, 0x1C);
-  // DAC power-up LOUT1/ROUT1 enabled
-  ES8388_Write_Reg(4, 0x30);
-  // unmute
-  ES8388_Write_Reg(25, 0x00);
+    ES8388_Write_Reg(2, 0xF0);
+    ES8388_Write_Reg(2, 0x00);
+    ES8388_Write_Reg(29, 0x1C);
+    // DAC power-up LOUT1/ROUT1 enabled
+    ES8388_Write_Reg(4, 0x30);
+    // unmute
+    ES8388_Write_Reg(25, 0x00);
 }
 
 void MuseLuxe::I2S_Init() {
@@ -218,7 +226,7 @@ void MuseLuxe::playSineWave(uint16_t frequency, uint16_t duration_ms) {
         // Stereo sample: duplicate for both left and right channels
         int16_t samples_data[2] = {sample_val, sample_val};
 
-        i2s_write(I2S_NUM_0, (const char *)samples_data, sizeof(samples_data), &bytes_written, portMAX_DELAY);
+        i2s_write(I2S_NUM_0, (const char*)samples_data, sizeof(samples_data), &bytes_written, portMAX_DELAY);
     }
 }
 
@@ -230,31 +238,115 @@ void MuseLuxe::ES8388_Write_Reg(uint8_t reg, uint8_t val) {
     Wire.endTransmission();
 }
 
-uint8_t MuseLuxe::ES8388_Read_Reg(uint8_t reg) {
-    Wire.beginTransmission(ES8388_ADDR);
-    Wire.write(reg);
-    Wire.endTransmission(false); // Send restart
-    Wire.requestFrom((uint8_t)ES8388_ADDR, (uint8_t)1);
-    if (Wire.available()) {
-        return Wire.read();
+void MuseLuxe::ES8388vol_Set(uint8_t volx) {
+    #define M (maxVol - 33)
+
+    printf("volume ==> %d\n", volx);
+    ES8388_Write_Reg(25, 0x00);
+    if (volx > maxVol) volx = maxVol;
+    if (volx == 0)
+    {
+        ES8388_Write_Reg(25, 0x04);
+
     }
-    return 0;
+    if (volx >= M)
+    {
+        ES8388_Write_Reg(46, volx - M);
+        ES8388_Write_Reg(47, volx - M);
+        ES8388_Write_Reg(26, 0x00);
+        ES8388_Write_Reg(27, 0x00);
+
+    }
+    else
+    {
+        ES8388_Write_Reg(46, 0x00);
+        ES8388_Write_Reg(47, 0x00);
+        ES8388_Write_Reg(26, (M - volx) * 3);
+        ES8388_Write_Reg(27, (M - volx) * 3);
+    }
 }
 
+// Remplacer setVolume avec ES8388vol_Set
 void MuseLuxe::setVolume(uint8_t volume) {
     if (volume > 100) volume = 100; // Cap volume at 100%
     currentVolume = volume;
-
-    // Convert percentage to codec volume register value
-    uint8_t codecVolume = 255 - (volume * 255) / 100; // Invert if necessary
-
-    // Set the DAC volume registers (26 and 27 are Left and Right DAC volume)
-    ES8388_Write_Reg(26, codecVolume); // Left DAC
-    ES8388_Write_Reg(27, codecVolume); // Right DAC
-
-    Serial.printf("Codec volume set to 0x%02X\n", codecVolume);
+    ES8388vol_Set(volume); // Utiliser la nouvelle méthode de réglage du volume
 }
 
 uint8_t MuseLuxe::getVolume() {
     return currentVolume;
+}
+
+
+
+// Nouvelle fonction playWav basée sur l'exemple utilisateur
+void MuseLuxe::playWav(const char* filename) {
+    struct wav_header {
+        char riff[4];        // "RIFF"
+        uint32_t chunk_size; // 4 + (8 + SubChunk1Size) + (8 + SubChunk2Size)
+        char wave[4];        // "WAVE"
+        char fmt[4];         // "fmt "
+        uint32_t subchunk1_size; // 16 for PCM
+        uint16_t audio_format;   // PCM = 1
+        uint16_t num_channels;   // Mono = 1, Stereo = 2
+        uint32_t sample_rate;    // 44100, 48000, etc.
+        uint32_t byte_rate;      // sample_rate * num_channels * bits_per_sample/8
+        uint16_t block_align;    // num_channels * bits_per_sample/8
+        uint16_t bits_per_sample; // 16, 24, etc.
+        char data[4];            // "data"
+        uint32_t data_size;      // NumSamples * NumChannels * bits_per_sample/8
+    } header;
+
+    File wavFile = SPIFFS.open(filename, "r");
+    if (!wavFile) {
+        Serial.printf("Échec de l'ouverture du fichier WAV: %s\n", filename);
+        return;
+    }
+
+    // Lire l'en-tête WAV
+    if (wavFile.read((uint8_t*)&header, sizeof(wav_header)) != sizeof(wav_header)) {
+        Serial.println("Échec de la lecture de l'en-tête WAV");
+        wavFile.close();
+        return;
+    }
+
+    // Vérifier les identifiants "RIFF" et "WAVE"
+    if (strncmp(header.riff, "RIFF", 4) != 0 || strncmp(header.wave, "WAVE", 4) != 0) {
+        Serial.println("En-tête WAV invalide");
+        wavFile.close();
+        return;
+    }
+
+    // Afficher les informations du fichier WAV
+    Serial.printf("Format audio: %s\n", (header.audio_format == 1) ? "PCM" : "Autre");
+    Serial.printf("Canaux: %d\n", header.num_channels);
+    Serial.printf("Taux d'échantillonnage: %d Hz\n", header.sample_rate);
+    Serial.printf("Bits par échantillon: %d\n", header.bits_per_sample);
+    Serial.printf("Taille des données: %d octets\n", header.data_size);
+
+    // Configurer l'I2S en fonction des paramètres du WAV
+    i2s_set_clk(I2S_NUM_0, header.sample_rate, (i2s_bits_per_sample_t)header.bits_per_sample, 
+                (header.num_channels == 1) ? I2S_CHANNEL_MONO : I2S_CHANNEL_STEREO);
+
+    // Lire et jouer les données audio
+    const size_t bufferSize = 1024;
+    uint8_t buffer[bufferSize];
+    size_t bytesRead = 0;
+    size_t bytesWritten = 0;
+
+    while ((bytesRead = wavFile.read(buffer, bufferSize)) > 0) {
+        // Écrire les données lues dans l'I2S
+        i2s_write(I2S_NUM_0, buffer, bytesRead, &bytesWritten, portMAX_DELAY);
+        // Optionnel: vérifier si tous les octets ont été écrits
+        if (bytesRead != bytesWritten) {
+            Serial.println("Attention: Tous les octets n'ont pas été écrits dans l'I2S");
+        }
+    }
+
+    // Nettoyer
+    i2s_zero_dma_buffer(I2S_NUM_0);
+    wavFile.close();
+
+    // Optionnel: réinitialiser les paramètres audio si nécessaire
+    // initAudio(); // Décommentez si vous souhaitez réinitialiser après la lecture
 }
