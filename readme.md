@@ -1,18 +1,22 @@
-# MuseLuxe Library
-
-![MuseLuxe Logo](https://github.com/YourUsername/MuseLuxe/blob/main/assets/logo.png?raw=true)
+# Muse Library
+This is a library to ease devlopment with Raspiaudio's muse device, for now it supports :
+- Muse Luxe [buy here]([https://github.com/YourUsername/MuseLuxe/releases](https://raspiaudio.com/product/esp-muse-luxe/))
+- Muse Radio (soon)
+- Muse Proto (soon)
+- Muse MnCast (soon)
+  
 
 ## Overview
 
-The **MuseLuxe Library** is an Arduino library designed for the ESP32-based Muse Luxe device. It provides seamless control over the Muse Luxe's NeoPixel LED, interfaces with the ES8388 codec for audio, and includes support for various other peripherals. This library abstracts the complexities of NeoPixel management and audio control, allowing developers to focus on building innovative applications with ease.
+The **MuseLuxe Library** is an Arduino library designed for the ESP32-based Muse devices. It provides seamless control over the Muse  NeoPixel LED, interfaces with the ES8388 codec for audio, and includes support for various other peripherals. 
 
 ## Features
 
 - **NeoPixel Control**: Easily set and display colors on the Muse Luxe's integrated NeoPixel LED.
 - **Audio Playback**: Control audio playback using the ES8388 codec and integrate streaming or audio functionalities.
-- **Encapsulation**: Maintains proper encapsulation by providing public methods for interaction, hiding the underlying implementation details.
-- **Extensibility**: Designed to be easily extendable for additional functionalities and integrations.
-- **Debugging Support**: Logs essential parameters to the Serial Monitor for debugging and monitoring purposes.
+- **Batery monitoring**: Control audio playback using the ES8388 codec and integrate streaming or audio functionalities.
+
+- Audio recording coming soon
 
 ## Table of Contents
 
