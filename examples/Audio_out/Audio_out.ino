@@ -52,9 +52,9 @@ void setup()
 
     es.volume(ES8388::ES_MAIN, volume);
     es.volume(ES8388::ES_OUT1, volume);
-    es.volume(ES8388::ES_OUT2, volume);
+//    es.volume(ES8388::ES_OUT2, volume);
     es.mute(ES8388::ES_OUT1, false);
-    es.mute(ES8388::ES_OUT2, false);
+//    es.mute(ES8388::ES_OUT2, false);
     es.mute(ES8388::ES_MAIN, false);
 
     // Enable amplifier
