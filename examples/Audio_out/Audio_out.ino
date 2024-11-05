@@ -12,7 +12,7 @@ char ssid[] =     "xhkap";
 char password[] = "12345678";
 
 
-int volume = 80;                            // 0...100
+int volume = 100;                            // 0...100
 
 ES8388 es;
 Audio audio;

@@ -6,10 +6,10 @@
 
 #include <Arduino.h>
 #include <Wire.h>
-#include "ES8388.h"  // https://github.com/schreibfaul1/es8388
+//#include "ES8388.h"  // https://github.com/schreibfaul1/es8388
 #include "Audio.h"   // check this for more examples https://github.com/schreibfaul1/ESP32-audioI2S
 #include <Adafruit_NeoPixel.h> // https://github.com/adafruit/Adafruit_NeoPixel
-
+#include <stdint.h>
 
 //SD card
 #define SD_CS         13
@@ -24,13 +24,14 @@
 #define I2S_BCLK       5
 #define I2S_LRCK      25
 #define I2S_MCLK       0
+#define I2S_SDIN      35
 
 // I2C GPIOs
 #define IIC_CLK       23
 #define IIC_DATA      18
 
 // Amplifier enable
-#define GPIO_PA_EN    21
+#define GPIO_PA_EN    GPIO_NUM_21
 
 // Pin Definitions
 #define NEOPIXEL_PIN 22        // Pin for the RGB LED on Muse Luxe
@@ -124,4 +125,26 @@ private:
 
 };
 
+
+
+class ES8388
+{
+
+    bool write_reg(uint8_t slave_add, uint8_t reg_add, uint8_t data);
+    bool read_reg(uint8_t slave_add, uint8_t reg_add, uint8_t &data);
+    bool identify(int sda, int scl, uint32_t frequency);
+
+public:
+    bool begin(int sda = -1, int scl = -1, uint32_t frequency = 400000U);
+
+    enum ES8388_OUT
+    {
+        ES_MAIN, // this is the DAC output volume (both outputs)
+        ES_OUT1, // this is the additional gain for OUT1
+        ES_OUT2  // this is the additional gain for OUT2
+    };
+
+    void mute(const ES8388_OUT out, const bool muted);
+    void volume(const ES8388_OUT out, const uint8_t vol);
+};
 #endif // MUSELUXE_H
