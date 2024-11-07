@@ -11,7 +11,7 @@
 //#include <Adafruit_NeoPixel.h> // https://github.com/adafruit/Adafruit_NeoPixel
 #include <stdint.h>
 #include <SD_MMC.h>
-//#include <TFT_eSPI.h>
+#include <TFT_eSPI.h>
 
 
 
