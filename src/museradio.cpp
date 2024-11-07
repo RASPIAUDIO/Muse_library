@@ -13,7 +13,9 @@ void MuseRadio::begin() {
 
     // Initialize I2C for IP5306 and ES8388 communication
     Wire.begin(IIC_DATA, IIC_CLK);
-
+    // Initialize Encoder button pins
+    pinMode(CLICK1, INPUT_PULLUP);
+    pinMode(CLICK2, INPUT_PULLUP);
     // Initialize Serial for debugging
     Serial.begin(115200);
     Serial.println("Muse Luxe initialized");

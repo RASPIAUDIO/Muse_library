@@ -12,7 +12,8 @@
 #include <stdint.h>
 #include <SD_MMC.h>
 #include <TFT_eSPI.h>
-
+#include "Free_Fonts.h"
+#include <ESP32Encoder.h>
 
 
 //SD_MMC card GPIOs
