@@ -16,9 +16,11 @@ void MuseRadio::begin() {
     // Initialize Encoder button pins
     pinMode(CLICK1, INPUT_PULLUP);
     pinMode(CLICK2, INPUT_PULLUP);
+    pinMode(backLight, OUTPUT);
+    gpio_set_level(backLight, HIGH);
     // Initialize Serial for debugging
     Serial.begin(115200);
-    Serial.println("Muse Luxe initialized");
+    Serial.println("Muse Radio initialized");
 }
 int MuseRadio::button_get_level(int nb)
 {
@@ -159,9 +161,9 @@ bool ES8388::begin(int sda, int scl, uint32_t frequency)
         res &= write_reg(ES8388_ADDR, ES8388_ADCPOWER, 0xff);
         res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL1, 0x88); // +24db
 
-        /* select LINPUT2 / RINPUT2 as ADC input; stereo; 16 bit word length, format right-justified, MCLK / Fs = 256 */
+        /* select LINPUT1/RINPUT1 as ADC input; stereo; 16 bit word length, format right-justified, MCLK / Fs = 256 */
         res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL2, 0x00); // 
-        res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL3, 0x02); // 00
+        res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL3, 0x08); // 00
         res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL4, 0x0c);
         res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL5, 0x02);
 
@@ -169,19 +171,29 @@ bool ES8388::begin(int sda, int scl, uint32_t frequency)
         res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL8, 0x00);
         res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL9, 0x00);
         
+	// ALC
+	// (optimized for voice)
+	write_reg(ES8388_ADDR, ES8388_ADCCONTROL10, 0xf8); 
+	  //write_reg(ES8388_ADDR, ES8388_ADCCONTROL10, 0x22); 
+	write_reg(ES8388_ADDR,  ES8388_ADCCONTROL11, 0x30); 
+	write_reg(ES8388_ADDR,  ES8388_ADCCONTROL12, 0x57); 
+	write_reg(ES8388_ADDR,  ES8388_ADCCONTROL13, 0x06); 
+	write_reg(ES8388_ADDR,  ES8388_ADCCONTROL14, 0x89); 
+	
+        
         // Set mono => (R + L) / 2
         res &= write_reg(ES8388_ADDR, ES8388_DACCONTROL7, 0x20);
 
         /* set LOUT1 / ROUT1 volume: 0dB (unattenuated) */
-        res &= write_reg(ES8388_ADDR, ES8388_DACCONTROL24, 0x1e);
-        res &= write_reg(ES8388_ADDR, ES8388_DACCONTROL25, 0x1e);
+        res &= write_reg(ES8388_ADDR, ES8388_DACCONTROL24, 0x21);
+        res &= write_reg(ES8388_ADDR, ES8388_DACCONTROL25, 0x21);
 
         /* set LOUT2 / ROUT2 volume: 0dB (unattenuated) */
-        res &= write_reg(ES8388_ADDR, ES8388_DACCONTROL26, 0x1e);
-        res &= write_reg(ES8388_ADDR, ES8388_DACCONTROL27, 0x1e);
+        res &= write_reg(ES8388_ADDR, ES8388_DACCONTROL26, 0x21);
+        res &= write_reg(ES8388_ADDR, ES8388_DACCONTROL27, 0x21);
 
         /* power up and enable DAC; power up ADC (no MIC bias) */
-        res &= write_reg(ES8388_ADDR, ES8388_DACPOWER, 0x3c);
+        res &= write_reg(ES8388_ADDR, ES8388_DACPOWER, 0x3C);
         res &= write_reg(ES8388_ADDR, ES8388_DACCONTROL3, 0x00);
         res &= write_reg(ES8388_ADDR, ES8388_ADCPOWER, 0x00);
         

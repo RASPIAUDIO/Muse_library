@@ -17,9 +17,9 @@
 
 
 //SD_MMC card GPIOs
-#define clk	      14
-#define cmd           15
-#define d0            2
+#define SD_MMC_clk	     14
+#define SD_MMC_cmd           15
+#define SD_MMC_d0            2
 
 
 
@@ -49,7 +49,7 @@
 
 #define CLICK2      GPIO_NUM_45
 #define CLICK1      GPIO_NUM_48
-
+#define backLight   GPIO_NUM_41
 
 // Battery Level Thresholds
 #define BATTERY_FULL 75

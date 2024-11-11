@@ -30,7 +30,7 @@ void setup()
   //////////////////////////////////////////////////
   //Encoders init
   //////////////////////////////////////////////////
-  ESP32Encoder::useInternalWeakPullResistors = UP;
+  ESP32Encoder::useInternalWeakPullResistors = puType::up;
   volEncoder.attachHalfQuad(ENC_A1, ENC_B1);
   staEncoder.attachHalfQuad(ENC_A2, ENC_B2);
   // Initialize Encoder button pins

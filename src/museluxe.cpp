@@ -241,12 +241,22 @@ bool ES8388::begin(int sda, int scl, uint32_t frequency)
         res &= write_reg(ES8388_ADDR, ES8388_ADCPOWER, 0xff);
         res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL1, 0x88); // +24db
 
-        // select LINPUT2 / RINPUT2 as ADC input; stereo; 16 bit word length, format right-justified, MCLK / Fs = 256 
+        // select LINPUT1 / RINPUT1 as ADC input; mono; 16 bit word length, format right-justified, MCLK / Fs = 256 
         res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL2, 0x00); // 
-        res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL3, 0x02); // 00
+        res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL3, 0x08); // 00
         res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL4, 0x0c);
         res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL5, 0x02);
-
+        
+	// ALC
+	// (optimized for voice)
+	write_reg(ES8388_ADDR, ES8388_ADCCONTROL10, 0xf8); 
+	  //write_reg(ES8388_ADDR, ES8388_ADCCONTROL10, 0x22); 
+	write_reg(ES8388_ADDR,  ES8388_ADCCONTROL11, 0x30); 
+	write_reg(ES8388_ADDR,  ES8388_ADCCONTROL12, 0x57); 
+	write_reg(ES8388_ADDR,  ES8388_ADCCONTROL13, 0x06); 
+	write_reg(ES8388_ADDR,  ES8388_ADCCONTROL14, 0x89); 
+	
+	//  write_reg(ES8388_ADDR,  ES8388_CHIPPOWER, 0x55); 
         // set ADC volume 
         res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL8, 0x00);
         res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL9, 0x00);

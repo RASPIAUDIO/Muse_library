@@ -8,7 +8,7 @@ char ssid[] =     "wifilr";
 char password[] = "casanice";
 
 
-int volume = 100;                            // 0...100
+int volume = 80;                            // 0...100
 
 ES8388 es;
 Audio audio;
@@ -22,7 +22,7 @@ void setup()
 
 
     //just needed for SD card
-    if (! SD_MMC.setPins(clk, cmd, d0)) {
+    if (! SD_MMC.setPins(SD_MMC_clk, SD_MMC_cmd, SD_MMC_d0)) {
     printf("Pin change failed!\n");
   }
     printf ("SD_MMC init OK\n");
@@ -62,13 +62,13 @@ void setup()
     audio.setPinout(I2S_BCLK, I2S_LRCK, I2S_SDOUT, I2S_MCLK);
     audio.setVolume(21); // 0...21
 
-//    audio.connecttohost("http://direct.fipradio.fr/live/fip-midfi.mp3");
-
+    audio.connecttohost("http://direct.fipradio.fr/live/fip-midfi.mp3");
+/*
     if (!SD_MMC.begin("/sdcard", true)) {
     printf("Card Mount Failed\n");
     }
     audio.connecttoFS(SD_MMC, "/320k_test.mp3"); //SD card
-    
+*/    
 //  audio.connecttoFS(SPIFFS, "/test.wav"); // SPIFFS internal flash upload first your file using ESP32 sketch data uploader
 //  audio.connecttospeech("Hello Raspiaudio, this text was genrated using google speech API", "en"); //uses google TTS
 //  audio.openai_speech(OPENAI_API_KEY, "tts-1", result, "shimmer", "mp3", "1"); //uses openai TTS (needs billable api key)
