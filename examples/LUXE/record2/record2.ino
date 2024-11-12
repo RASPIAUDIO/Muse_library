@@ -78,8 +78,8 @@ void setup() {
   es.mute(ES8388::ES_MAIN, false);
   es.microphone_volume(microVol);
   
-
- 
+  es.ALC(false);
+  es.Amp_D(false);
 }
 
 void loop() {

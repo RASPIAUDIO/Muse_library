@@ -146,6 +146,8 @@ public:
 
     void mute(const ES8388_OUT out, const bool muted);
     void volume(const ES8388_OUT out, const uint8_t vol);
-    void microphone_volume(const uint8_t vol);   
+    void microphone_volume(const uint8_t vol); 
+    void ALC(const bool valid);
+    void Amp_D(const bool valid);  
 };
 #endif // MUSELUXE_H
