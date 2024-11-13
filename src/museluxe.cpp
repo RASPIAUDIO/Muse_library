@@ -239,7 +239,7 @@ bool ES8388::begin(int sda, int scl, uint32_t frequency)
 
         // power down ADC while configuring; volume: +9dB for both channels 
         res &= write_reg(ES8388_ADDR, ES8388_ADCPOWER, 0xff);
-        res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL1, 0x88); // +24db
+        res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL1, 0x80); // +24db
 
         // select LINPUT1 / RINPUT1 as ADC input; mono; 16 bit word length, format right-justified, MCLK / Fs = 256 
         res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL2, 0x00); // 
@@ -249,7 +249,7 @@ bool ES8388::begin(int sda, int scl, uint32_t frequency)
         
 	// ALC
 	// (optimized for voice)
-	write_reg(ES8388_ADDR, ES8388_ADCCONTROL10, 0xf8); 
+	write_reg(ES8388_ADDR, ES8388_ADCCONTROL10, 0xB8); 
 	  //write_reg(ES8388_ADDR, ES8388_ADCCONTROL10, 0x22); 
 	write_reg(ES8388_ADDR,  ES8388_ADCCONTROL11, 0x30); 
 	write_reg(ES8388_ADDR,  ES8388_ADCCONTROL12, 0x57); 
@@ -383,13 +383,13 @@ void ES8388::microphone_volume(const uint8_t vol)
     
     if (vol > max_vol) vol_val = 0; else vol_val = (max_vol - vol) * 2;
     write_reg(ES8388_ADDR, ES8388_ADCCONTROL8, vol_val);
-    write_reg(ES8388_ADDR, ES8388_ADCCONTROL9, vol_val);    
+//    write_reg(ES8388_ADDR, ES8388_ADCCONTROL9, vol_val);    
 }
 
 void ES8388::ALC(const bool valid)
 {
     uint8_t val;
-    val = (valid) ? 0xF8 : 0X00;
+    val = (valid) ? 0xB8 : 0X00;
     write_reg(ES8388_ADDR, ES8388_ADCCONTROL10, val);  
 }
 
