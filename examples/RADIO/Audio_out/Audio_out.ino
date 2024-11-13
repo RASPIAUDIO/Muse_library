@@ -4,11 +4,11 @@
 #include "WiFi.h"
 #include "museradio.h"  
 
-char ssid[] =     "wifilr";
-char password[] = "casanice";
+char ssid[] =     "xhkap";
+char password[] = "12345678";
 
 
-int volume = 80;                            // 0...100
+int volume = 100;                            // 0...100
 
 ES8388 es;
 Audio audio;
@@ -20,13 +20,14 @@ void setup()
     Serial.begin(115200);
     Serial.println("\r\nReset");
 
-
+/*
     //just needed for SD card
     if (! SD_MMC.setPins(SD_MMC_clk, SD_MMC_cmd, SD_MMC_d0)) {
     printf("Pin change failed!\n");
-  }
+    }
     printf ("SD_MMC init OK\n");
-    
+ */   
+   
     WiFi.mode(WIFI_STA);
     WiFi.begin(ssid, password);
 
@@ -39,6 +40,13 @@ void setup()
     Serial.print(WiFi.RSSI());
     Serial.print(" IP: ");
     Serial.println(WiFi.localIP());
+
+
+    if (!SPIFFS.begin()) {
+    Serial.println("LittleFS initialisation failed!");
+    while (1) for (;;);
+  }
+
 
     Serial.printf("Connect to ES8388 codec... ");
     while (not es.begin(IIC_DATA, IIC_CLK))
@@ -54,6 +62,10 @@ void setup()
     es.mute(ES8388::ES_OUT1, false);
 //    es.mute(ES8388::ES_OUT2, false);
     es.mute(ES8388::ES_MAIN, false);
+    es.ALC(false);
+    es.Amp_D(true);
+
+    
 
     // Enable amplifier
     pinMode(GPIO_PA_EN, OUTPUT);
@@ -69,7 +81,7 @@ void setup()
     }
     audio.connecttoFS(SD_MMC, "/320k_test.mp3"); //SD card
 */    
-//  audio.connecttoFS(SPIFFS, "/test.wav"); // SPIFFS internal flash upload first your file using ESP32 sketch data uploader
+//    audio.connecttoFS(SPIFFS, "/test.wav"); // SPIFFS internal flash upload first your file using ESP32 sketch data uploader
 //  audio.connecttospeech("Hello Raspiaudio, this text was genrated using google speech API", "en"); //uses google TTS
 //  audio.openai_speech(OPENAI_API_KEY, "tts-1", result, "shimmer", "mp3", "1"); //uses openai TTS (needs billable api key)
 

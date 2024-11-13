@@ -304,7 +304,32 @@ void ES8388::microphone_volume(const uint8_t vol)
     write_reg(ES8388_ADDR, ES8388_ADCCONTROL9, vol_val);    
 }
 
+void ES8388::ALC(const bool valid)
+{
+    uint8_t val;
+    val = (valid) ? 0xF8 : 0X00;
+    write_reg(ES8388_ADDR, ES8388_ADCCONTROL10, val);  
+}
 
+void ES8388::Amp_D(const bool valid)
+{
+if(!valid)
+{
+  digitalWrite(GPIO_PA_EN, LOW);
+  delayMicroseconds(300);
+  digitalWrite(GPIO_PA_EN, HIGH);
+}
+else
+{
+  digitalWrite(GPIO_PA_EN, LOW);
+  delayMicroseconds(300);
+  digitalWrite(GPIO_PA_EN,HIGH);
+  delayMicroseconds(5);
+  digitalWrite(GPIO_PA_EN,LOW);
+  delayMicroseconds(5);
+  digitalWrite(GPIO_PA_EN,HIGH);
+}
+}
 /**
  * @brief Test if device with I2C address for ES8388 is connected to the I2C bus 
  * 

@@ -19,7 +19,7 @@ File f;
 // Initialize your objects and variables
 I2SClass i2s;
 ES8388 es;
-pcm_wav_header_t H = PCM_WAV_HEADER_DEFAULT(0, 16, 16000, 2);
+pcm_wav_header_t H = PCM_WAV_HEADER_DEFAULT(0, 16, 44100, 2);
 
 
 void setup() {
@@ -49,7 +49,7 @@ void setup() {
 //////I2S init
   i2s.setPins(I2S_BCLK, I2S_LRCK, I2S_SDOUT, I2S_SDIN, I2S_MCLK);
 
-  if (!i2s.begin(I2S_MODE_STD, 16000, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_STEREO, I2S_STD_SLOT_BOTH)) {
+  if (!i2s.begin(I2S_MODE_STD, 44100, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_STEREO, I2S_STD_SLOT_BOTH)) {
     Serial.println("Failed to initialize I2S!");
     while (1); // do nothing
   }
@@ -67,7 +67,8 @@ void setup() {
   es.mute(ES8388::ES_OUT1, false);
   es.mute(ES8388::ES_MAIN, false);
   es.microphone_volume(microVol);
-  
+  es.ALC(true);
+  es.Amp_D(true);
 
  
 }
