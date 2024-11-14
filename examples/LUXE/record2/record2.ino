@@ -13,7 +13,7 @@
 #include "FS.h"
 
 int volume = 100;                            // 0...100
-int microVol = 90;                           // 0...96
+int microVol = 80;                           // 0...96
 File f;
 
 // Initialize your objects and variables
