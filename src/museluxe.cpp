@@ -389,8 +389,10 @@ void ES8388::microphone_volume(const uint8_t vol)
 void ES8388::ALC(const bool valid)
 {
     uint8_t val;
-    val = (valid) ? 0xAA : 0X00;
+    val = (valid) ? 0xAA : 0x00;
     write_reg(ES8388_ADDR, ES8388_ADCCONTROL10, val);  
+    val = (valid) ? 0x77 : 0x88;
+    write_reg(ES8388_ADDR, ES8388_ADCCONTROL1, val); // +21/24db    
 }
 
 void ES8388::Amp_D(const bool valid)

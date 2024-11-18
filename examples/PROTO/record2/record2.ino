@@ -13,7 +13,7 @@
 #include "FS.h"
 
 int volume = 100;                            // 0...100
-int microVol = 96;                           // 0...96
+int microVol = 80;                           // 0...96
 File f;
 
 // Initialize your objects and variables
@@ -78,7 +78,7 @@ void setup() {
   es.mute(ES8388::ES_MAIN, false);
   es.microphone_volume(microVol);
   
-  es.ALC(false);
+  es.ALC(true);
   es.Amp_D(true);
 }
 
