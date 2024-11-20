@@ -47,6 +47,7 @@ void setup()
 // SPIFFS init  
   if (!SPIFFS.begin()) {
     Serial.println("SPIFFS initialisation failed!");
+   SPIFFS.format();
     while (1) for (;;);
   }
 
@@ -57,8 +58,8 @@ void setup()
   audio.setPinout(I2S_BCLK, I2S_LRCK, I2S_SDOUT, I2S_MCLK);
   audio.setVolume(21); // 0...21
 
- //  audio.connecttohost("http://direct.fipradio.fr/live/fip-midfi.mp3");
-    audio.connecttoFS(SD, "truc.wav"); //SD card
+  audio.connecttohost("http://direct.fipradio.fr/live/fip-midfi.mp3");
+ //   audio.connecttoFS(SD, "brubeck.wav"); //SD card
  // audio.connecttoFS(SPIFFS, "/test.wav"); // SPIFFS internal flash upload first your file using ESP32 sketch data uploader
   //  audio.connecttospeech("Hello Raspiaudio, this text was genrated using google speech API", "en"); //uses google TTS
   //  audio.openai_speech(OPENAI_API_KEY, "tts-1", result, "shimmer", "mp3", "1"); //uses openai TTS (needs billable api key)

@@ -33,14 +33,20 @@
 // Amplifier enable
 #define GPIO_PA_EN    GPIO_NUM_21
 
+// Amplifier gain (Proto)
+#define GPIO_PROTO_GAIN GPIO_NUM_23
+
 // Pin Definitions
 #define NEOPIXEL_PIN 22        // Pin for the RGB LED on Muse Luxe
 #define NUMPIXELS 1            // Muse Luxe has 1 RGB LED
 
-// Buttons definition
+// Buttons definition (Luxe)
 #define BUTTON_PAUSE GPIO_NUM_12  // Pause/Play button
 #define BUTTON_VOL_MINUS GPIO_NUM_32 // Volume - button
 #define BUTTON_VOL_PLUS GPIO_NUM_19  // Volume + button
+
+// Button definition (Proto)
+#define BUTTON_PROTO_ZERO GPIO_NUM_0
 
 // Battery Level Thresholds
 #define BATTERY_FULL 75
