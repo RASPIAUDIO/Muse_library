@@ -10,7 +10,8 @@
 #include "Audio.h"   // check this for more examples https://github.com/schreibfaul1/ESP32-audioI2S
 #include <Adafruit_NeoPixel.h> // https://github.com/adafruit/Adafruit_NeoPixel
 #include <stdint.h>
-
+#include <ESP32Encoder.h>
+#include <driver/gpio.h>
 //SD card
 #define SD_CS         13
 
@@ -47,6 +48,11 @@
 
 // Button definition (Proto)
 #define BUTTON_PROTO_ZERO GPIO_NUM_0
+
+// Button definition (Manga)
+#define BUTTON_MANGA_CLICK GPIO_NUM_0
+#define MANGA_ENC_A 32
+#define MANGA_ENC_B 19
 
 // Battery Level Thresholds
 #define BATTERY_FULL 75
