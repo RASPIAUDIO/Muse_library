@@ -1,11 +1,11 @@
 // ***** Muse LUXE as a Bluetooth speaker *****
-// BT speaker name ==> LUXE-xxxxxx
+// BT speaker name ==> PROTO-xxxxxx
 //
 ///////////////////////////////////////////////
 
 
-#include "museluxe.h"
-#include "BluetoothA2DPSink.h"
+#include "museWrover.h"
+#include "BluetoothA2DPSink.h"   //https://github.com/pschatzmann/ESP32-A2DP
 #include "ESP_I2S.h"
 #include "driver/gpio.h"
 #include "esp_mac.h"
@@ -44,7 +44,7 @@ void setup() {
 
   esp_read_mac((uint8_t*)&mac, ESP_MAC_BT);
   snprintf(macStr, 19, "-%x%x%x", mac[3], mac[4], mac[5]);
-  strcpy(dev_name, "LUXE");
+  strcpy(dev_name, "PROTO");
   strcat(dev_name, macStr);
   printf("Device name : %s\n", dev_name);
   

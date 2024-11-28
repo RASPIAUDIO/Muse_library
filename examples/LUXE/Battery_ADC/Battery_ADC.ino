@@ -3,7 +3,7 @@
 // Adapted to use the MuseLuxe library for NeoPixel control
 
 #include <Arduino.h>
-#include "museluxe.h"
+#include "museWrover.h"
 
 // Instantiate the MuseLuxe class
 MuseLuxe museluxe;
@@ -12,7 +12,7 @@ MuseLuxe museluxe;
 #ifndef BATTERY_PIN
 #define BATTERY_PIN 34 // Example GPIO pin for battery monitoring; adjust as needed
 #endif
-
+/*
 // Define battery thresholds if not already defined
 #ifndef BATTERY_FULL
 #define BATTERY_FULL 3000 // Example ADC value for full battery; adjust based on calibration
@@ -21,7 +21,7 @@ MuseLuxe museluxe;
 #ifndef BATTERY_LOW
 #define BATTERY_LOW 1000 // Example ADC value for low battery; adjust based on calibration
 #endif
-
+*/
 void setup() {
     // Initialize the MuseLuxe library (handles NeoPixel initialization)
     museluxe.begin();

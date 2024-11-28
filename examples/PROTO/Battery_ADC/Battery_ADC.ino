@@ -3,7 +3,7 @@
 // Adapted to use the MuseLuxe library for NeoPixel control
 
 #include <Arduino.h>
-#include "museluxe.h"
+#include "museWrover.h"
 
 // Instantiate the MuseLuxe class
 MuseLuxe museluxe;

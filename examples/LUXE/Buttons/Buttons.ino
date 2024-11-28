@@ -3,7 +3,7 @@
 
 #include <Adafruit_NeoPixel.h>
 #include <Arduino.h>
-#include "museluxe.h"
+#include "museWrover.h"
 
 // Set up the NeoPixel library with number of pixels and pin configuration
 Adafruit_NeoPixel pixels(NUMPIXELS, NEOPIXEL_PIN, NEO_GRB + NEO_KHZ800);

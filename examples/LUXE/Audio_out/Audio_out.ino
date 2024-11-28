@@ -6,7 +6,7 @@
 #include "SD.h"
 #include "FS.h"
 #include "Wire.h"
-#include "museluxe.h"
+#include "museWrover.h"
 
 char ssid[] =     "xhkap";
 char password[] = "12345678";
@@ -24,21 +24,21 @@ void setup()
   Serial.begin(115200);
   Serial.println("\r\nReset");
 
-  /*
-      //just needed for SD card
-      SPI.begin(SPI_SCK, SPI_MISO, SPI_MOSI);
-      SPI.setFrequency(1000000);
-      SD.begin(SD_CS);
-  */
-
   
-      WiFi.mode(WIFI_STA);
-      WiFi.begin(ssid, password);
+  //just needed for SD card
+  SPI.begin(SPI_SCK, SPI_MISO, SPI_MOSI);
+  SPI.setFrequency(1000000);
+  SD.begin(SD_CS);
 
-      while(WiFi.status() != WL_CONNECTED) {
-          Serial.print(".");
-          delay(100);
-      }
+
+
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(ssid, password);
+
+  while(WiFi.status() != WL_CONNECTED) {
+      Serial.print(".");
+      delay(100);
+  }
 
   Serial.printf_P(PSTR("Connected\r\nRSSI: "));
   Serial.print(WiFi.RSSI());
@@ -76,9 +76,9 @@ void setup()
   audio.setPinout(I2S_BCLK, I2S_LRCK, I2S_SDOUT, I2S_MCLK);
   audio.setVolume(21); // 0...21
 
-   audio.connecttohost("http://direct.fipradio.fr/live/fip-midfi.mp3");
-  //  audio.connecttoFS(SD, "truc.wav"); //SD card
- // audio.connecttoFS(SPIFFS, "/test.wav"); // SPIFFS internal flash upload first your file using ESP32 sketch data uploader
+ //  audio.connecttohost("http://direct.fipradio.fr/live/fip-midfi.mp3");
+ //   audio.connecttoFS(SD, "truc.wav"); //SD card
+  audio.connecttoFS(SPIFFS, "/test.wav"); // SPIFFS internal flash upload first your file using ESP32 sketch data uploader
   //  audio.connecttospeech("Hello Raspiaudio, this text was genrated using google speech API", "en"); //uses google TTS
   //  audio.openai_speech(OPENAI_API_KEY, "tts-1", result, "shimmer", "mp3", "1"); //uses openai TTS (needs billable api key)
 

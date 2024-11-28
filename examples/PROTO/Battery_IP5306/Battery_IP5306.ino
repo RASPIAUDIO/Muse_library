@@ -2,7 +2,7 @@
 
 #include <Arduino.h>
 #include <Wire.h>
-#include "museluxe.h"
+#include "museWrover.h"
 
 // Instantiate the MuseLuxe class
 MuseLuxe museluxe;

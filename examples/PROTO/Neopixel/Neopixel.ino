@@ -2,16 +2,12 @@
 // This code displays the French flag colors on the Muse Luxe's programmable RGB LED
 // The Muse Luxe is a hackable 10W Bluetooth speaker based on the ESP32.
 
-#include <Adafruit_NeoPixel.h>
+#include "museWrover.h"
 
-// Define the pin connected to the NeoPixel LED
-#define PIN        22 // Pin for the RGB LED on Muse Luxe
 
-// Define the number of NeoPixels
-#define NUMPIXELS 1 // Muse Luxe has 1 RGB LED
 
 // Set up the NeoPixel library with number of pixels and pin configuration
-Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel pixels(NUMPIXELS, NEOPIXEL_PIN, NEO_GRB + NEO_KHZ800);
 
 #define DELAYVAL 500 // Time (in milliseconds) to pause between colors
 

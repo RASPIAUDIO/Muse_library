@@ -6,12 +6,12 @@
 
 #include <Arduino.h>
 #include <Wire.h>
-//#include "ES8388.h"  // https://github.com/schreibfaul1/es8388
-#include "Audio.h"   // check this for more examples https://github.com/schreibfaul1/ESP32-audioI2S
+#include "Audio.h"    // https://github.com/schreibfaul1/ESP32-audioI2S
 #include <Adafruit_NeoPixel.h> // https://github.com/adafruit/Adafruit_NeoPixel
 #include <stdint.h>
 #include <ESP32Encoder.h>
 #include <driver/gpio.h>
+#include <esp_system.h>
 //SD card
 #define SD_CS         13
 

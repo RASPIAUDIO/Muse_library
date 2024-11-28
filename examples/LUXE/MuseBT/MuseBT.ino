@@ -4,8 +4,8 @@
 ///////////////////////////////////////////////
 
 
-#include "museluxe.h"
-#include "BluetoothA2DPSink.h"
+#include "museWrover.h"
+#include "BluetoothA2DPSink.h"      // https://github.com/pschatzmann/ESP32-A2DP
 #include "ESP_I2S.h"
 #include "driver/gpio.h"
 #include "esp_mac.h"

@@ -4,10 +4,9 @@
 ///////////////////////////////////////////////
 
 
-#include "museluxe.h"
+#include "museWrover.h"
 #include "ESP_I2S.h"
 #include "wav_header.h"
-#include "driver/gpio.h"
 #include "SPI.h"
 #include "SD.h"
 #include "FS.h"

@@ -2,10 +2,9 @@
 // (c) 2024 RASPiAudio
 #ifdef ARDUINO_ESP32_DEV
 
-#include "museluxe.h"
-#include <driver/gpio.h>
-#include <esp_system.h>
-#include <Wire.h>
+#include "museWrover.h"
+
+
 
 
 MuseLuxe::MuseLuxe() : pixels(NUMPIXELS, NEOPIXEL_PIN, NEO_GRB + NEO_KHZ800) {}
