@@ -1,9 +1,9 @@
 # Muse Library
 This is a library to ease devlopment with Raspiaudio's muse devices, for now it supports :
 - Muse Luxe [buy here](https://raspiaudio.com/product/esp-muse-luxe)
-- Muse Radio (soon)
-- Muse Proto (soon)
-- Muse MnCast (soon)
+- Muse Radio 
+- Muse Proto 
+- Muse Manga
   
 
 ## Overview
