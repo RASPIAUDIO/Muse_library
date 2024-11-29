@@ -9,7 +9,7 @@
 #include "Audio.h"    // https://github.com/schreibfaul1/ESP32-audioI2S
 #include <Adafruit_NeoPixel.h> // https://github.com/adafruit/Adafruit_NeoPixel
 #include <stdint.h>
-#include <ESP32Encoder.h>
+#include <ESP32Encoder.h>   //https://github.com/madhephaestus/ESP32Encoder
 #include <driver/gpio.h>
 #include <esp_system.h>
 //SD card

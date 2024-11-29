@@ -4,9 +4,9 @@
 ///////////////////////////////////////////////
 
 
-#include "museradio.h"
+#include "museS3.h"
 #include "ESP_I2S.h"
-#include "driver/gpio.h"
+
 
 int volume = 100;                            // 0...100
 int microVol = 90;                           // 0...96

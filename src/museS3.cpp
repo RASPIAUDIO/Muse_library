@@ -1,10 +1,9 @@
 // museluxe.cpp - Implementation file for ESP Muse Luxe NeoPixel, Battery Management System (BMS) using IP5306, and ES8388 Audio Codec
 // (c) 2024 RASPiAudio
 #ifdef ARDUINO_ESP32S3_DEV
-#include "muserS3.h"
-#include <driver/gpio.h>
-#include <esp_system.h>
-#include <Wire.h>
+#include "museS3.h"
+
+
 
 
 //MuseLuxe::MuseLuxe() : pixels(NUMPIXELS, NEOPIXEL_PIN, NEO_GRB + NEO_KHZ800) {}

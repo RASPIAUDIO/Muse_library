@@ -2,13 +2,14 @@
 
 #include "Arduino.h"
 #include "WiFi.h"
-#include "museradio.h"  
+#include "museS3.h"  
+#include <LittleFS.h>
 
 char ssid[] =     "xhkap";
 char password[] = "12345678";
 
 
-int volume = 100;                            // 0...100
+int volume = 80;                            // 0...100
 
 ES8388 es;
 Audio audio;
@@ -18,43 +19,36 @@ Audio audio;
 void setup()
 {
     Serial.begin(115200);
-    Serial.println("\r\nReset");
-
-/*
+ /*  
     //just needed for SD card
     if (! SD_MMC.setPins(SD_MMC_clk, SD_MMC_cmd, SD_MMC_d0)) {
     printf("Pin change failed!\n");
     }
     printf ("SD_MMC init OK\n");
- */   
+   
    
     WiFi.mode(WIFI_STA);
     WiFi.begin(ssid, password);
 
     while(WiFi.status() != WL_CONNECTED) {
-        Serial.print(".");
+        printf(".\n");
         delay(100);
     }
-
-    Serial.printf_P(PSTR("Connected\r\nRSSI: "));
-    Serial.print(WiFi.RSSI());
-    Serial.print(" IP: ");
-    Serial.println(WiFi.localIP());
-
-
-    if (!SPIFFS.begin()) {
-    Serial.println("LittleFS initialisation failed!");
+    printf("Connected\n");
+*/
+    if (!LittleFS.begin()) {
+    printf("LittleFS initialisation failed!\n");
     while (1) for (;;);
   }
+    printf("LittleFS init OK\n");
 
-
-    Serial.printf("Connect to ES8388 codec... ");
+    printf("Connect to ES8388 codec... ");
     while (not es.begin(IIC_DATA, IIC_CLK))
     {
-        Serial.printf("Failed!\n");
+        printf("Failed!\n");
         delay(1000);
     }
-    Serial.printf("OK\n");
+    printf("OK\n");
 
     es.volume(ES8388::ES_MAIN, volume);
     es.volume(ES8388::ES_OUT1, volume);
@@ -65,23 +59,24 @@ void setup()
     es.ALC(false);
     es.Amp_D(true);
 
-    
+ 
 
     // Enable amplifier
     pinMode(GPIO_PA_EN, OUTPUT);
     digitalWrite(GPIO_PA_EN, HIGH);
 
     audio.setPinout(I2S_BCLK, I2S_LRCK, I2S_SDOUT, I2S_MCLK);
+    
     audio.setVolume(21); // 0...21
 
-    audio.connecttohost("http://direct.fipradio.fr/live/fip-midfi.mp3");
+ // audio.connecttohost("http://direct.fipradio.fr/live/fip-midfi.mp3");
 /*
     if (!SD_MMC.begin("/sdcard", true)) {
     printf("Card Mount Failed\n");
     }
     audio.connecttoFS(SD_MMC, "/320k_test.mp3"); //SD card
-*/    
-//    audio.connecttoFS(SPIFFS, "/test.wav"); // SPIFFS internal flash upload first your file using ESP32 sketch data uploader
+ */   
+    audio.connecttoFS(LittleFS, "/test.wav"); // SPIFFS internal flash upload first your file using ESP32 sketch data uploader
 //  audio.connecttospeech("Hello Raspiaudio, this text was genrated using google speech API", "en"); //uses google TTS
 //  audio.openai_speech(OPENAI_API_KEY, "tts-1", result, "shimmer", "mp3", "1"); //uses openai TTS (needs billable api key)
 
@@ -89,8 +84,9 @@ void setup()
 //----------------------------------------------------------------------------------------------------------------------
 void loop()
 {
+
     audio.loop();
-    delay(10);
+    delay(1);
 }
 //----------------------------------------------------------------------------------------------------------------------
 
