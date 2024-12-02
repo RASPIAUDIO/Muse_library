@@ -86,7 +86,7 @@ void loop() {
       uint8_t l[2];
      }S;
     
-     int amp = 0 ; // 0 => 0dB   1 => 6dB 2 => 12dB 3 => 18dB 4 => 24dB
+     int amp = 3 ; // 0 => 0dB   1 => 6dB 2 => 12dB 3 => 18dB 4 => 24dB
     
      for(int i=0;i<t;i=i+2)
      {

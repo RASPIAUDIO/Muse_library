@@ -3,6 +3,8 @@
 #include "Arduino.h"
 #include "WiFi.h"
 #include "museS3.h"  
+#include <TFT_eSPI.h>
+#include "ESP32Encoder.h"
 
 TFT_eSPI tft = TFT_eSPI();
 ESP32Encoder volEncoder;

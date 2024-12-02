@@ -1,4 +1,4 @@
-// ***** Muse LUXE as a simple recorder*****
+// ***** Muse RADIO as a simple recorder*****
 // -- records sound on a SD .wav file (button CLICK1 to start/stop recording)
 // -- plays it
 ///////////////////////////////////////////////
@@ -67,7 +67,7 @@ void setup() {
   es.mute(ES8388::ES_OUT1, false);
   es.mute(ES8388::ES_MAIN, false);
   es.microphone_volume(microVol);
-  es.ALC(true);
+  es.ALC(false);
   es.Amp_D(true);
 
  

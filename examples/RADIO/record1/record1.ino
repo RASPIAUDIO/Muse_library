@@ -1,4 +1,4 @@
-// ***** Muse LUXE as a simple recorder*****
+// ***** Muse RADIO as a simple recorder*****
 // -- records sound (3 sec after clicking on button CLICK1)
 // -- plays it
 ///////////////////////////////////////////////

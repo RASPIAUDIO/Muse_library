@@ -6,13 +6,10 @@
 
 #include <Arduino.h>
 #include <Wire.h>
-#include "Audio.h"   / https://github.com/schreibfaul1/ESP32-audioI2S
 #include <Adafruit_NeoPixel.h> // https://github.com/adafruit/Adafruit_NeoPixel
 #include <stdint.h>
 #include <SD_MMC.h>
-#include <TFT_eSPI.h>
 #include "Free_Fonts.h"
-#include <ESP32Encoder.h>
 #include <driver/gpio.h>
 #include <esp_system.h>
 
@@ -47,8 +44,8 @@
 // Encoders definition
 #define ENC_A2          6
 #define ENC_B2          7
-#define ENC_A1          42
-#define ENC_B1          3
+#define ENC_A1          3
+#define ENC_B1          42
 
 #define CLICK2      GPIO_NUM_45
 #define CLICK1      GPIO_NUM_48

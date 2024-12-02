@@ -1,4 +1,4 @@
-// ***** Muse LUXE as a simple recorder*****
+// ***** Muse Proto as a simple recorder*****
 // -- records sound on a SD .wav file (BUTTON_PROTO_ZERO to start/stop recording)
 // -- plays it
 ///////////////////////////////////////////////

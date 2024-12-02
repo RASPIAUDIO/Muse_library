@@ -1,4 +1,4 @@
-// ***** Muse LUXE as a Bluetooth speaker *****
+// ***** Muse Manga as a Bluetooth speaker *****
 // BT speaker name ==> MANGA-xxxxxx
 //
 ///////////////////////////////////////////////
@@ -10,8 +10,8 @@
 #include "driver/gpio.h"
 #include "esp_mac.h"
 #include <Wire.h>
-#include <Adafruit_GFX.h>       // https://github.com/adafruit/Adafruit-GFX-Library
 #include <Adafruit_SH1106.h>    // https://github.com/davidperrenoud/Adafruit_SH1106
+#include "ESP32Encoder.h"       // https://github.com/madhephaestus/ESP32Encoder/
 
 bool BPause = false;
 uint8_t volume = 100;                            // 0...127

@@ -1,4 +1,4 @@
-// ***** Muse LUXE as a simple recorder*****
+// ***** Muse PROTO as a simple recorder*****
 // -- records sound 5 sec after clicking on BUTTON_PROTO_ZERO (close to SD)
 // -- plays it
 ///////////////////////////////////////////////

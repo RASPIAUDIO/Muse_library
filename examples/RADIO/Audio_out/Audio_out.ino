@@ -4,6 +4,7 @@
 #include "WiFi.h"
 #include "museS3.h"  
 #include <LittleFS.h>
+#include "Audio.h"
 
 char ssid[] =     "xhkap";
 char password[] = "12345678";

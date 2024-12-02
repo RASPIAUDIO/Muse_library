@@ -6,7 +6,7 @@
 
 #include "museWrover.h"
 #include "ESP_I2S.h"
-#include "driver/gpio.h"
+
 
 // Initialize your objects and variables
 I2SClass i2s;

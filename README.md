@@ -40,6 +40,8 @@ The **Muse Library** is an Arduino library designed for the ESP32-based Muse dev
 - [Audio](https://github.com/schreibfaul1/ESP32-audioI2S) by schreibfaul1
 - [ESP32Encoder](https://github.com/madhephaestus/ESP32Encoder)
 - [ESP32-A2DP](https://github.com/pschatzmann/ESP32-A2DP)
+- [TFT_eSPI](https://github.com/Bodmer/TFT_eSPI)
+- [esp32-sh1106-oled](https://github.com/davidperrenoud/Adafruit_SH1106)
 
 
 Ensure that the libraries are installed before using the Muse_library.

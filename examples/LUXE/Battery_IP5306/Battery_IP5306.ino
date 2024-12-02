@@ -1,7 +1,6 @@
 // BatteryIP5306.ino - Example Sketch for Muse Luxe with IP5306
 
 #include <Arduino.h>
-#include <Wire.h>
 #include "museWrover.h"
 
 // Instantiate the MuseLuxe class

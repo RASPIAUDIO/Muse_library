@@ -1,7 +1,6 @@
 // ESP Muse Luxe NeoPixel (c) 2024 RASPiAudio
 // This code displays the French flag colors based on button presses on the Muse Luxe's programmable RGB LED
 
-#include <Adafruit_NeoPixel.h>
 #include <Arduino.h>
 #include "museWrover.h"
 

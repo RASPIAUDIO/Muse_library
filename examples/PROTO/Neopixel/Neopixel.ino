@@ -1,4 +1,4 @@
-// ESP Muse Luxe NeoPixel (c) 2024 RASPiAudio
+// ESP Muse Proto NeoPixel (c) 2024 RASPiAudio
 // This code displays the French flag colors on the Muse Luxe's programmable RGB LED
 // The Muse Luxe is a hackable 10W Bluetooth speaker based on the ESP32.
 

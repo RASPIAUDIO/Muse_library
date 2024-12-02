@@ -7,6 +7,7 @@
 #include "FS.h"
 #include "Wire.h"
 #include "museWrover.h"
+#include "Audio.h"
 
 char ssid[] =     "xhkap";
 char password[] = "12345678";

@@ -3,7 +3,7 @@
 #include "Arduino.h"
 #include "WiFi.h"
 #include "museS3.h"  
-
+#include <TFT_eSPI.h>
 MuseRadio radio;
 TFT_eSPI tft = TFT_eSPI();
 
