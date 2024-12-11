@@ -32,6 +32,7 @@ The **Muse Library** is an Arduino library designed for the ESP32-based Muse dev
 2. Navigate to **Sketch** > **Include Library** > **Manage Libraries**.
 3. In the Library Manager, search for `Muse_library`.
 4. Click **Install** on the Muse library by `Raspiaudio`.
+5. Select int Tools-Board-ESP32 Wrover
 
 
 ## Dependencies
