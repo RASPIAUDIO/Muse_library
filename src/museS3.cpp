@@ -160,9 +160,9 @@ bool ES8388::begin(int sda, int scl, uint32_t frequency)
         res &= write_reg(ES8388_ADDR, ES8388_ADCPOWER, 0xff);
         res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL1, 0x88); // +24db
 
-        /* select LINPUT1/RINPUT1  LINPUT2/RINPUT2 as ADC input; stereo; 16 bit word length, format right-justified, MCLK / Fs = 256 */
-        res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL2, 0xFC); // LiN1-LIN2 RIN1-RIN2
-        res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL3, 0x02); // 00
+        /* select LINPUT1/RINPUT1 as ADC input; stereo; 16 bit word length, format right-justified, MCLK / Fs = 256 */
+        res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL2, 0x00); // 
+        res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL3, 0x08); // 00
         res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL4, 0x0c);
         res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL5, 0x02);
 
