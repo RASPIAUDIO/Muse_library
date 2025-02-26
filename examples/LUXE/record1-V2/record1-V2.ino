@@ -12,6 +12,7 @@
 #include "ESP_I2S.h"
 #include "driver/gpio.h"
 
+
 int volume = 100;                            // 0...100
 int microVol = 100;                           // 0...96
 bool jack = false;

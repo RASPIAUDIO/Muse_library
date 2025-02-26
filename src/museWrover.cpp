@@ -9,6 +9,7 @@
 
 MuseLuxe::MuseLuxe() : pixels(NUMPIXELS, NEOPIXEL_PIN, NEO_GRB + NEO_KHZ800) {}
 
+
 void MuseLuxe::begin() {
     // Initialize the NeoPixel strip object (REQUIRED for the Muse Luxe's RGB LED)
     pixels.begin();
