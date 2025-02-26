@@ -159,7 +159,7 @@ bool ES8388::begin(int sda, int scl, uint32_t frequency)
 
         // select LINPUT1 / RINPUT1 as ADC input; mono; 16 bit word length, format right-justified, MCLK / Fs = 256 
         res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL2, 0x00); // 
-        res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL3, 0x08); // 00
+        res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL3, 0x08); // mono left ADC
         res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL4, 0x0c);
         res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL5, 0x02);
         
@@ -376,4 +376,13 @@ void ES8388::select_out2()
 {
 write_reg(ES8388_ADDR, ES8388_DACPOWER, 0x0c); 
 }
+void ES8388::select_internal_microphone()
+{
+write_reg(ES8388_ADDR, ES8388_ADCCONTROL3, 0x08); // mono left ADC
+}
+void ES8388::select_external_microphone()
+{
+write_reg(ES8388_ADDR, ES8388_ADCCONTROL3, 0x10); // mono right ADC
+}
+
 #endif

@@ -226,5 +226,8 @@ public:
     bool read_reg(uint8_t slave_add, uint8_t reg_add, uint8_t &data);  
     void select_out1();
     void select_out2();  
+    void select_internal_microphone();
+    void select_external_microphone();
+
 };
 #endif // MUSELUXE_H
