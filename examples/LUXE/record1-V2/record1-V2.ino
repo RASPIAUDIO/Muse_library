@@ -66,6 +66,9 @@ void loop() {
   es.volume(ES8388::ES_MAIN, 100); 
   es.microphone_volume(microVol); 
   es.mute(ES8388::ES_MAIN, false); 
+  es.ALC(true);
+  
+  
   
   if (gpio_get_level(Jack_Detect) == 0)
   {
