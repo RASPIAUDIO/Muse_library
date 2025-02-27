@@ -167,10 +167,15 @@ bool ES8388::begin(int sda, int scl, uint32_t frequency)
 	// ALC
 	// (optimized for voice)
 	write_reg(ES8388_ADDR, ES8388_ADCCONTROL10, 0x00);   //by default not set ( see ALC method below)
-	  //write_reg(ES8388_ADDR, ES8388_ADCCONTROL10, 0x22); 
-	write_reg(ES8388_ADDR,  ES8388_ADCCONTROL11, 0xC0); 
-	write_reg(ES8388_ADDR,  ES8388_ADCCONTROL12, 0x12); 
+// ALC stéréo - Max gain 23.5dB - Min gain 18dB	
+      //write_reg(ES8388_ADDR, ES8388_ADCCONTROL10, 0xED); 
+// ALC target -1.5dB  hold time 0s      
+	write_reg(ES8388_ADDR,  ES8388_ADCCONTROL11, 0xF0); 
+// ALC decay 820us  Attack time 416us	
+	write_reg(ES8388_ADDR,  ES8388_ADCCONTROL12, 0x12);
+// ALC mode - window size 96 samples	 	
 	write_reg(ES8388_ADDR,  ES8388_ADCCONTROL13, 0x06); 
+// Noise gate enable - mute ADC output - noise gate theshold 	
 	write_reg(ES8388_ADDR,  ES8388_ADCCONTROL14, 0xC3); 
 	
 	//  write_reg(ES8388_ADDR,  ES8388_CHIPPOWER, 0x55); 
@@ -306,7 +311,7 @@ void ES8388::microphone_volume(const uint8_t vol)
 void ES8388::ALC(const bool valid)
 {
     uint8_t val;
-    val = (valid) ? 0xE2 : 0x00;
+    val = (valid) ? 0xED : 0x00;
     write_reg(ES8388_ADDR, ES8388_ADCCONTROL10, val);  
     val = (valid) ? 0x77 : 0x88;
     write_reg(ES8388_ADDR, ES8388_ADCCONTROL1, val); // +21/24db    
