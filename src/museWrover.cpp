@@ -126,79 +126,85 @@ bool ES8388::begin(int sda, int scl, uint32_t frequency)
 
     if (res == true)
     {
+        // reset
+        write_reg(ES8388_ADDR, 0x00, 0x80);
+        write_reg(ES8388_ADDR, 0x00, 0x00);
 
-        // mute DAC during setup, power up all systems, slave mode 
-        res &= write_reg(ES8388_ADDR, ES8388_DACCONTROL3, 0x04);
-        res &= write_reg(ES8388_ADDR, ES8388_CONTROL2, 0x50);
-        res &= write_reg(ES8388_ADDR, ES8388_CHIPPOWER, 0x00);
-        res &= write_reg(ES8388_ADDR, ES8388_MASTERMODE, 0x00);
+        // mute
+        write_reg(ES8388_ADDR, 25, 0x04); // Reg 25 decimal = 0x19
+        write_reg(ES8388_ADDR, 1, 0x50);
 
-        // power up DAC and enable LOUT1+2 / ROUT1+2, ADC sample rate = DAC sample rate 
-        res &= write_reg(ES8388_ADDR, ES8388_DACPOWER, 0x3e);
-        res &= write_reg(ES8388_ADDR, ES8388_CONTROL1, 0x12);
+        // power up
+        write_reg(ES8388_ADDR, 2, 0x00);
 
-        // DAC I2S setup: 16 bit word length, I2S format; MCLK / Fs = 256
-        res &= write_reg(ES8388_ADDR, ES8388_DACCONTROL1, 0x18);
-        res &= write_reg(ES8388_ADDR, ES8388_DACCONTROL2, 0x02);
+        // slave mode
+        write_reg(ES8388_ADDR, 8, 0x00);
 
-        // DAC to output route mixer configuration: ADC MIX TO OUTPUT 
-        res &= write_reg(ES8388_ADDR, ES8388_DACCONTROL16, 0x1B);
-        res &= write_reg(ES8388_ADDR, ES8388_DACCONTROL17, 0x90);
-        res &= write_reg(ES8388_ADDR, ES8388_DACCONTROL20, 0x90);
+        // DAC power-down
+        write_reg(ES8388_ADDR, 4, 0xC0);
 
-        // DAC and ADC use same LRCK, enable MCLK input; output resistance setup 
-        res &= write_reg(ES8388_ADDR, ES8388_DACCONTROL21, 0x80);
-        res &= write_reg(ES8388_ADDR, ES8388_DACCONTROL23, 0x00);
+        // vmidsel/500k ADC/DAC idem
+        write_reg(ES8388_ADDR, 0, 0x12);
+        write_reg(ES8388_ADDR, 1, 0x00);
 
-        // DAC volume control: 0dB (maximum, unattenuated)  
-        res &= write_reg(ES8388_ADDR, ES8388_DACCONTROL5, 0x00);
-        res &= write_reg(ES8388_ADDR, ES8388_DACCONTROL4, 0x00);
+        // I2S 16 bits
+        write_reg(ES8388_ADDR, 23, 0x18); 
 
-        // power down ADC while configuring; volume: +9dB for both channels 
-        res &= write_reg(ES8388_ADDR, ES8388_ADCPOWER, 0xff);
-        res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL1, 0x88); // 
+        // sample freq 256
+        write_reg(ES8388_ADDR, 24, 0x02); 
 
-        // select LINPUT1 / RINPUT1 as ADC input; mono; 16 bit word length, format right-justified, MCLK / Fs = 256 
-        res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL2, 0x00); // 
-        res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL3, 0x08); // mono left ADC
-        res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL4, 0x0c);
-        res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL5, 0x02);
+        // LIN2/RIN2 for mixer
+        //write_reg(ES8388_ADDR, 38, 0x09); //
+
+        // left DAC to left mixer
+        write_reg(ES8388_ADDR, 39, 0x90); 
+
+        // right DAC to right mixer
+        write_reg(ES8388_ADDR, 42, 0x90); // 
+
+        // DACLRC ADCLRC idem
+        write_reg(ES8388_ADDR, 43, 0x80); // 
+        write_reg(ES8388_ADDR, 45, 0x00); // 
+
+        // DAC volume max
+        write_reg(ES8388_ADDR, 27, 0x00); // 
+        write_reg(ES8388_ADDR, 26, 0x00); // 
+
+        write_reg(ES8388_ADDR, 2, 0xF0);
+        write_reg(ES8388_ADDR, 2, 0x00);
+        write_reg(ES8388_ADDR, 29, 0x1C); // 
+
+        // DAC power-up LOUT1/ROUT1 enabled
+        write_reg(ES8388_ADDR, 4, 0x30);
+
+        res &=write_reg(ES8388_ADDR, 8, 0x00); // ES8388 in I2S slave mode
+        res &=write_reg(ES8388_ADDR, 43, 0x80); // Set ADC and DAC to have the same LRCK
+        res &=write_reg(ES8388_ADDR, 0, 0x05); // Start up reference
+        res &=write_reg(ES8388_ADDR, 1, 0x40); // Start up reference
+        res &=write_reg(ES8388_ADDR, 3, 0x00); // Power on ADC and LIN/RIN input
+        res &=write_reg(ES8388_ADDR, 9, 0x77); // MicBoost PGA = +21dB
+        res &=write_reg(ES8388_ADDR, 10, 0x00); // LIN1 and RIN1 used as single-ended input
+
+         //write_reg(ES8388_ADDR, 0x0A, 0x50); // LIN2 and RIN2 used as single-ended input
+        res &=write_reg(ES8388_ADDR, 12, 0x00); // I2S – 24bits, Ldata = LADC, Rdata = RADC
+        res &=write_reg(ES8388_ADDR, 13, 0x02); // MCLK/LRCK = 256
+        res &=write_reg(ES8388_ADDR, 16, 0x00); // LADC volume = 0dB
+        res &=write_reg(ES8388_ADDR, 17, 0x00); // RADC volume = 0dB
+        // ALC
+        res &=write_reg(ES8388_ADDR, 18, 0xE2); // ALC enable, PGA Max. Gain=23.5dB, Min. Gain=0dB
+        res &=write_reg(ES8388_ADDR, 19, 0xA0); // ALC Target=-4.5dB, ALC Hold time=0ms
+        res &=write_reg(ES8388_ADDR, 20, 0x12); // Decay time=820µs, Attack time=416µs
+        res &=write_reg(ES8388_ADDR, 21, 0x06); // ALC mode
+        res &=write_reg(ES8388_ADDR, 22, 0xC3); // Noise gate=-40.5dB, NGG=0x01(mute ADC)
         
-	// ALC
-	// (optimized for voice)
-	write_reg(ES8388_ADDR, ES8388_ADCCONTROL10, 0x00);   //by default not set ( see ALC method below)
-// ALC stéréo - Max gain 23.5dB - Min gain 18dB	
-      //write_reg(ES8388_ADDR, ES8388_ADCCONTROL10, 0xED); 
-// ALC target -1.5dB  hold time 0s      
-	write_reg(ES8388_ADDR,  ES8388_ADCCONTROL11, 0xF0); 
-// ALC decay 820us  Attack time 416us	
-	write_reg(ES8388_ADDR,  ES8388_ADCCONTROL12, 0x12);
-// ALC mode - window size 96 samples	 	
-	write_reg(ES8388_ADDR,  ES8388_ADCCONTROL13, 0x06); 
-// Noise gate enable - mute ADC output - noise gate theshold 	
-	write_reg(ES8388_ADDR,  ES8388_ADCCONTROL14, 0xC3); 
-	
-	//  write_reg(ES8388_ADDR,  ES8388_CHIPPOWER, 0x55); 
-        // set ADC volume 
-        res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL8, 0x00);
-        res &= write_reg(ES8388_ADDR, ES8388_ADCCONTROL9, 0x00);
+        // unmute
+        write_reg(ES8388_ADDR, 25, 0x00); // 
 
-        // set LOUT1 / ROUT1 volume: 0dB (unattenuated) 
-        res &= write_reg(ES8388_ADDR, ES8388_DACCONTROL24, 0x1e);
-        res &= write_reg(ES8388_ADDR, ES8388_DACCONTROL25, 0x1e);
+        // amp validation
+        write_reg(ES8388_ADDR, 46, 0x21); // Reg 46  value 33 
+        write_reg(ES8388_ADDR, 47, 0x21); // Reg 47  value 33 
 
-        // set LOUT2 / ROUT2 volume: 0dB (unattenuated) 
-        res &= write_reg(ES8388_ADDR, ES8388_DACCONTROL26, 0x1e);
-        res &= write_reg(ES8388_ADDR, ES8388_DACCONTROL27, 0x1e);
 
-        // power up and enable DAC; power up ADC (no MIC bias) 
-        res &= write_reg(ES8388_ADDR, ES8388_DACPOWER, 0x3c);
-        res &= write_reg(ES8388_ADDR, ES8388_DACCONTROL3, 0x00);
-        res &= write_reg(ES8388_ADDR, ES8388_ADCPOWER, 0x00);
-        
-        // set up MCLK) 
-//		PIN_FUNC_SELECT(PERIPHS_IO_MUX_GPIO0_U, FUNC_GPIO0_CLK_OUT1);
-//       WRITE_PERI_REG(PIN_CTRL, 0xFFF0);
     }
 
     return res;
@@ -308,14 +314,7 @@ void ES8388::microphone_volume(const uint8_t vol)
 //    write_reg(ES8388_ADDR, ES8388_ADCCONTROL9, vol_val);    
 }
 
-void ES8388::ALC(const bool valid)
-{
-    uint8_t val;
-    val = (valid) ? 0xED : 0x00;
-    write_reg(ES8388_ADDR, ES8388_ADCCONTROL10, val);  
-    val = (valid) ? 0x77 : 0x88;
-    write_reg(ES8388_ADDR, ES8388_ADCCONTROL1, val); // +21/24db    
-}
+
 
 void ES8388::Amp_D(const bool valid)
 {
@@ -384,11 +383,13 @@ write_reg(ES8388_ADDR, ES8388_DACPOWER, 0x0c);
 }
 void ES8388::select_internal_microphone()
 {
-write_reg(ES8388_ADDR, ES8388_ADCCONTROL3, 0x08); // mono left ADC
+// left data => left ADC left data => right ADC
+  write_reg(ES8388_ADDR, 12, 0x40);   
 }
 void ES8388::select_external_microphone()
 {
-write_reg(ES8388_ADDR, ES8388_ADCCONTROL3, 0x10); // mono right ADC
+// right data => left ADC right data => right ADC
+  write_reg(ES8388_ADDR, 12, 0x80);    
 }
 
 #endif
