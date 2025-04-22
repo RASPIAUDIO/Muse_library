@@ -191,12 +191,33 @@ bool ES8388::begin(int sda, int scl, uint32_t frequency)
         res &=write_reg(ES8388_ADDR, 16, 0x00); // LADC volume = 0dB
         res &=write_reg(ES8388_ADDR, 17, 0x00); // RADC volume = 0dB
         // ALC
+
+/*
         res &=write_reg(ES8388_ADDR, 18, 0xE2); // ALC enable, PGA Max. Gain=23.5dB, Min. Gain=0dB
         res &=write_reg(ES8388_ADDR, 19, 0xA0); // ALC Target=-4.5dB, ALC Hold time=0ms
         res &=write_reg(ES8388_ADDR, 20, 0x12); // Decay time=820µs, Attack time=416µs
         res &=write_reg(ES8388_ADDR, 21, 0x06); // ALC mode
-        res &=write_reg(ES8388_ADDR, 22, 0xC3); // Noise gate=-40.5dB, NGG=0x01(mute ADC)
+       res &=write_reg(ES8388_ADDR, 22, 0xC3); // Noise gate=-40.5dB, NGG=0x01(mute ADC)
         
+*/
+
+// 1) ALC enable, PGA max gain
+res &= write_reg(ES8388_ADDR, 18, 0xE2);
+
+// 2) ALC Target = 0 dB
+res &= write_reg(ES8388_ADDR, 19, 0xE0);
+
+// 3) Decay = 5,2 ms, Attack = 2,6 ms
+res &= write_reg(ES8388_ADDR, 20, 0x1E);
+
+// 4) ALC mode (restez en mode standard si besoin)
+res &= write_reg(ES8388_ADDR, 21, 0x06);
+
+// 5) Noise gate : seuil –60 dB, hold gain, activé
+res &= write_reg(ES8388_ADDR, 22, 0x5B);
+
+
+
         // unmute
         write_reg(ES8388_ADDR, 25, 0x00); // 
 
