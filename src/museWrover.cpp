@@ -177,44 +177,44 @@ bool ES8388::begin(int sda, int scl, uint32_t frequency)
         // DAC power-up LOUT1/ROUT1 enabled
         write_reg(ES8388_ADDR, 4, 0x30);
 
-        res &=write_reg(ES8388_ADDR, 8, 0x00); // ES8388 in I2S slave mode
-        res &=write_reg(ES8388_ADDR, 43, 0x80); // Set ADC and DAC to have the same LRCK
-        res &=write_reg(ES8388_ADDR, 0, 0x05); // Start up reference
-        res &=write_reg(ES8388_ADDR, 1, 0x40); // Start up reference
-        res &=write_reg(ES8388_ADDR, 3, 0x00); // Power on ADC and LIN/RIN input
-        res &=write_reg(ES8388_ADDR, 9, 0x77); // MicBoost PGA = +21dB
-        res &=write_reg(ES8388_ADDR, 10, 0x00); // LIN1 and RIN1 used as single-ended input
+        res |=write_reg(ES8388_ADDR, 8, 0x00); // ES8388 in I2S slave mode
+        res |=write_reg(ES8388_ADDR, 43, 0x80); // Set ADC and DAC to have the same LRCK
+        res |=write_reg(ES8388_ADDR, 0, 0x05); // Start up reference
+        res |=write_reg(ES8388_ADDR, 1, 0x40); // Start up reference
+        res |=write_reg(ES8388_ADDR, 3, 0x00); // Power on ADC and LIN/RIN input
+        res |=write_reg(ES8388_ADDR, 9, 0x77); // MicBoost PGA = +21dB
+        res |=write_reg(ES8388_ADDR, 10, 0x00); // LIN1 and RIN1 used as single-ended input
 
          //write_reg(ES8388_ADDR, 0x0A, 0x50); // LIN2 and RIN2 used as single-ended input
-        res &=write_reg(ES8388_ADDR, 12, 0x00); // I2S – 24bits, Ldata = LADC, Rdata = RADC
-        res &=write_reg(ES8388_ADDR, 13, 0x02); // MCLK/LRCK = 256
-        res &=write_reg(ES8388_ADDR, 16, 0x00); // LADC volume = 0dB
-        res &=write_reg(ES8388_ADDR, 17, 0x00); // RADC volume = 0dB
+        res |=write_reg(ES8388_ADDR, 12, 0x00); // I2S – 24bits, Ldata = LADC, Rdata = RADC
+        res |=write_reg(ES8388_ADDR, 13, 0x02); // MCLK/LRCK = 256
+        res |=write_reg(ES8388_ADDR, 16, 0x00); // LADC volume = 0dB
+        res |=write_reg(ES8388_ADDR, 17, 0x00); // RADC volume = 0dB
         // ALC
 
 /*
-        res &=write_reg(ES8388_ADDR, 18, 0xE2); // ALC enable, PGA Max. Gain=23.5dB, Min. Gain=0dB
-        res &=write_reg(ES8388_ADDR, 19, 0xA0); // ALC Target=-4.5dB, ALC Hold time=0ms
-        res &=write_reg(ES8388_ADDR, 20, 0x12); // Decay time=820µs, Attack time=416µs
-        res &=write_reg(ES8388_ADDR, 21, 0x06); // ALC mode
-       res &=write_reg(ES8388_ADDR, 22, 0xC3); // Noise gate=-40.5dB, NGG=0x01(mute ADC)
+        res |=write_reg(ES8388_ADDR, 18, 0xE2); // ALC enable, PGA Max. Gain=23.5dB, Min. Gain=0dB
+        res |=write_reg(ES8388_ADDR, 19, 0xA0); // ALC Target=-4.5dB, ALC Hold time=0ms
+        res |=write_reg(ES8388_ADDR, 20, 0x12); // Decay time=820µs, Attack time=416µs
+        res |=write_reg(ES8388_ADDR, 21, 0x06); // ALC mode
+       res |=write_reg(ES8388_ADDR, 22, 0xC3); // Noise gate=-40.5dB, NGG=0x01(mute ADC)
         
 */
 
 // 1) ALC enable, PGA max gain
-res &= write_reg(ES8388_ADDR, 18, 0xE2);
+res |= write_reg(ES8388_ADDR, 18, 0xE2);
 
 // 2) ALC Target = 0 dB
-res &= write_reg(ES8388_ADDR, 19, 0xE0);
+res |= write_reg(ES8388_ADDR, 19, 0xE0);
 
 // 3) Decay = 5,2 ms, Attack = 2,6 ms
-res &= write_reg(ES8388_ADDR, 20, 0x1E);
+res |= write_reg(ES8388_ADDR, 20, 0x1E);
 
 // 4) ALC mode (restez en mode standard si besoin)
-res &= write_reg(ES8388_ADDR, 21, 0x06);
+res |= write_reg(ES8388_ADDR, 21, 0x06);
 
 // 5) Noise gate : seuil –60 dB, hold gain, activé
-res &= write_reg(ES8388_ADDR, 22, 0x5B);
+res |= write_reg(ES8388_ADDR, 22, 0x5B);
 
 
 
