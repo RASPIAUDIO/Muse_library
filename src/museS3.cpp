@@ -17,6 +17,7 @@ void MuseRadio::begin() {
     pinMode(CLICK2, INPUT_PULLUP);
     pinMode(backLight, OUTPUT);
     gpio_set_level(backLight, HIGH);
+    pinMode(GPIO_PA_EN, OUTPUT);
     // Initialize Serial for debugging
     Serial.begin(115200);
     Serial.println("Muse Radio initialized");
@@ -183,6 +184,9 @@ bool ES8388::begin(int sda, int scl, uint32_t frequency)
         
         // Set mono => (R + L) / 2
         res |= write_reg(ES8388_ADDR, ES8388_DACCONTROL7, 0x20);
+        
+        // DACR phase inversion       
+        res |= write_reg(ES8388_ADDR, ES8388_DACCONTROL6, 0x10);
 
         /* set LOUT1 / ROUT1 volume: 0dB (unattenuated) */
         res |= write_reg(ES8388_ADDR, ES8388_DACCONTROL24, 0x21);
@@ -307,7 +311,7 @@ void ES8388::microphone_volume(const uint8_t vol)
 void ES8388::ALC(const bool valid)
 {
     uint8_t val;
-    val = (valid) ? 0xF8 : 0X00;
+    val = (valid) ? 0xF8 : 0x00;
     write_reg(ES8388_ADDR, ES8388_ADCCONTROL10, val);  
 }
 
