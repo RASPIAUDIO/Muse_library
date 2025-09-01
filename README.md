@@ -1,6 +1,6 @@
 # Muse Library
-This is a library to ease devlopment with Raspiaudio's muse devices, for now it supports :
-- Muse Luxe [buy here](https://raspiaudio.com/product/esp-muse-luxe)
+This is a library to ease devlopment with Raspiaudio's muse devices, for now it supports [ESP32 Muse devices](https://raspiaudio.com/muse/) :
+- Muse Luxe
 - Muse Radio 
 - Muse Proto 
 - Muse Manga
@@ -49,6 +49,7 @@ The **Muse Library** is an Arduino library designed for the ESP32-based Muse dev
 - [esp32-sh1106-oled](https://github.com/davidperrenoud/Adafruit_SH1106) **replace the User_Setup.h of this repository in the TFT-eSPI library directory to apply the screen preferences**
 - ArduinoJson@7.4.2
 - Arduino sockets
+- ArduinoHttpClient
 
 
 
