@@ -15,6 +15,11 @@ The **Muse Library** is an Arduino library designed for the ESP32-based Muse dev
 
 
 - **OpenAi chatgpt integration** for realtime API and classic STT-LML-TTS
+- 
+
+[![Watch the demo](https://img.youtube.com/vi/lSqYN547yjs/maxresdefault.jpg)](https://youtu.be/lSqYN547yjs)
+
+
 - **Audio Playback**: Streaming URL or local audio file on SD card
 - **Audio recording**
 - **Battery monitoring**: Control audio playback using the ES8388 codec and integrate streaming or audio functionalities.
