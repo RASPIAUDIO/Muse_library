@@ -34,7 +34,7 @@ The **Muse Library** is an Arduino library designed for the ESP32-based Muse dev
 4. Click **Install** on the Muse library by `Raspiaudio`.
 
 
-##Muse radio arduino configuration
+## Muse radio arduino configuration
 <img width="402" height="587" alt="image" src="https://github.com/user-attachments/assets/3cccf144-1632-437a-ba7c-296fc5967c82" />
 
 
