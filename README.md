@@ -32,17 +32,24 @@ The **Muse Library** is an Arduino library designed for the ESP32-based Muse dev
 2. Navigate to **Sketch** > **Include Library** > **Manage Libraries**.
 3. In the Library Manager, search for `Muse_library`.
 4. Click **Install** on the Muse library by `Raspiaudio`.
-5. Select int Tools-Board-ESP32 Wrover
+
+
+##Muse radio arduino configuration
+<img width="402" height="587" alt="image" src="https://github.com/user-attachments/assets/3cccf144-1632-437a-ba7c-296fc5967c82" />
+
 
 
 ## Dependencies
-- Tested on ESP32 version 3.0.7
-- [Audio](https://github.com/schreibfaul1/ESP32-audioI2S) by schreibfaul1 YOU NEED TO INSTALL THIS LIBRARY MANUALLY search for "ESP32-audioI2S-master" in the library manager
+- Tested on ESP32 3.3.0
+- ESP32-audioI2S-master@3.4.0
 - [Adafruit NeoPixel](https://github.com/adafruit/Adafruit_NeoPixel) by Adafruit
 - [ESP32Encoder](https://github.com/madhephaestus/ESP32Encoder)
 - [ESP32-A2DP](https://github.com/pschatzmann/ESP32-A2DP)
 - [TFT_eSPI](https://github.com/Bodmer/TFT_eSPI)
 - [esp32-sh1106-oled](https://github.com/davidperrenoud/Adafruit_SH1106) **replace the User_Setup.h of this repository in the TFT-eSPI library directory to apply the screen preferences**
+- ArduinoJson@7.4.2
+- Arduino sockets
+
 
 
 Ensure that the libraries are installed before using the Muse_library.
