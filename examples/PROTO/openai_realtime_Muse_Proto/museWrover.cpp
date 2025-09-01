@@ -1,9 +1,18 @@
 // museluxe.cpp - Implementation file for ESP Muse Luxe NeoPixel, Battery Management System (BMS) using IP5306, and ES8388 Audio Codec
 // (c) 2024 RASPiAudio
-#ifdef ARDUINO_ESP32_DEV
 
+
+#include <Arduino.h>
+#include <Wire.h>
+#include <Adafruit_NeoPixel.h> // https://github.com/adafruit/Adafruit_NeoPixel
+#include "Audio.h"
+#include <ESP_I2S.h>
+#include <math.h>
+#include <Arduino.h>
+#include <stdint.h>
+#include <driver/gpio.h>
+#include <esp_system.h>
 #include "museWrover.h"
-
 
 
 
@@ -186,7 +195,7 @@ bool ES8388::begin(int sda, int scl, uint32_t frequency)
         res |=write_reg(ES8388_ADDR, 10, 0x00); // LIN1 and RIN1 used as single-ended input
 
          //write_reg(ES8388_ADDR, 0x0A, 0x50); // LIN2 and RIN2 used as single-ended input
-        res |=write_reg(ES8388_ADDR, 12, 0x0C); // I2S – 16bits, Ldata = LADC, Rdata = RADC
+        res |=write_reg(ES8388_ADDR, 12, 0x00); // I2S – 24bits, Ldata = LADC, Rdata = RADC
         res |=write_reg(ES8388_ADDR, 13, 0x02); // MCLK/LRCK = 256
         res |=write_reg(ES8388_ADDR, 16, 0x00); // LADC volume = 0dB
         res |=write_reg(ES8388_ADDR, 17, 0x00); // RADC volume = 0dB
@@ -198,15 +207,28 @@ bool ES8388::begin(int sda, int scl, uint32_t frequency)
         res |=write_reg(ES8388_ADDR, 20, 0x12); // Decay time=820µs, Attack time=416µs
         res |=write_reg(ES8388_ADDR, 21, 0x06); // ALC mode
        res |=write_reg(ES8388_ADDR, 22, 0xC3); // Noise gate=-40.5dB, NGG=0x01(mute ADC)
-*/      
-	
-	res |= write_reg(ES8388_ADDR, 18, 0xE2);// 1) ALC enable, PGA max gain	
-	res |= write_reg(ES8388_ADDR, 19, 0xE0);// 2) ALC Target = 0 dB
-	res |= write_reg(ES8388_ADDR, 20, 0x1E);// 3) Decay = 5,2 ms, Attack = 2,6 ms
-	res |= write_reg(ES8388_ADDR, 21, 0x06);// 4) ALC mode (restez en mode standard si besoin)	
-//	res |= write_reg(ES8388_ADDR, 22, 0x5B);// 5) Noise gate : seuil –60 dB, hold gain, activé
-        res |=write_reg(ES8388_ADDR, 22, 0xC3); // Noise gate=-40.5dB, NGG=0x01(mute ADC)
-        write_reg(ES8388_ADDR, 25, 0x00); // unmute 
+        
+*/
+
+// 1) ALC enable, PGA max gain
+res |= write_reg(ES8388_ADDR, 18, 0xE2);
+
+// 2) ALC Target = 0 dB
+res |= write_reg(ES8388_ADDR, 19, 0xE0);
+
+// 3) Decay = 5,2 ms, Attack = 2,6 ms
+res |= write_reg(ES8388_ADDR, 20, 0x1E);
+
+// 4) ALC mode (restez en mode standard si besoin)
+res |= write_reg(ES8388_ADDR, 21, 0x06);
+
+// 5) Noise gate : seuil –60 dB, hold gain, activé
+res |= write_reg(ES8388_ADDR, 22, 0x5B);
+
+
+
+        // unmute
+        write_reg(ES8388_ADDR, 25, 0x00); // 
 
         // amp validation
         write_reg(ES8388_ADDR, 46, 0x21); // Reg 46  value 33 
@@ -322,12 +344,7 @@ void ES8388::microphone_volume(const uint8_t vol)
 //    write_reg(ES8388_ADDR, ES8388_ADCCONTROL9, vol_val);    
 }
 
-void ES8388::ALC(const bool valid)
-{
-    uint8_t val;
-    val = (valid) ? 0xE2 : 0x00;
-    write_reg(ES8388_ADDR, ES8388_ADCCONTROL10, val);  
-}
+
 
 void ES8388::Amp_D(const bool valid)
 {
@@ -397,12 +414,11 @@ write_reg(ES8388_ADDR, ES8388_DACPOWER, 0x0c);
 void ES8388::select_internal_microphone()
 {
 // left data => left ADC left data => right ADC
-  write_reg(ES8388_ADDR, 12, 0x4C);   
+  write_reg(ES8388_ADDR, 12, 0x40);   
 }
 void ES8388::select_external_microphone()
 {
 // right data => left ADC right data => right ADC
-  write_reg(ES8388_ADDR, 12, 0x8C);    
+  write_reg(ES8388_ADDR, 12, 0x80);    
 }
-
-#endif
+// (duplicate inline implementations removed; see museWrover.h)
