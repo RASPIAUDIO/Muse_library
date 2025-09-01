@@ -34,6 +34,9 @@ The **Muse Library** is an Arduino library designed for the ESP32-based Muse dev
 <img width="402" height="587" alt="image" src="https://github.com/user-attachments/assets/3cccf144-1632-437a-ba7c-296fc5967c82" />
 
 
+## OpenAI examples
+You will need an API key form OpenAi, add your key in OPENAI_API_KEY[] = "sk-YOUR ENTER API KEY HERE";
+
 
 ## Dependencies
 - Tested on ESP32 3.3.0
