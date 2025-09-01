@@ -1,4 +1,5 @@
 # Muse Library
+
 This is a library to ease devlopment with Raspiaudio's muse devices, for now it supports [ESP32 Muse devices](https://raspiaudio.com/muse/) :
 - Muse Luxe
 - Muse Radio 
@@ -12,17 +13,12 @@ The **Muse Library** is an Arduino library designed for the ESP32-based Muse dev
 
 ## Features
 
-- **NeoPixel Control**: Easily set and display colors on the Muse Luxe's integrated NeoPixel LED.
-- **Audio Playback**: Control audio playback using the ES8388 codec and integrate streaming or audio functionalities.
-- **Battery monitoring**: Control audio playback using the ES8388 codec and integrate streaming or audio functionalities.
 
+- **OpenAi chatgpt integration** for realtime API and classic STT-LML-TTS
+- **Audio Playback**: Streaming URL or local audio file on SD card
 - **Audio recording**
-
-## Table of Contents
-
-- [Installation](#installation)
-- [Dependencies](#dependencies)
-
+- **Battery monitoring**: Control audio playback using the ES8388 codec and integrate streaming or audio functionalities.
+- **NeoPixel Control**: Easily set and display colors on the Muse Luxe's integrated NeoPixel LED.
 
 ## Installation
 
